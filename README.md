@@ -1,14 +1,11 @@
-# Daily Number Incrementer
-
-A simple Python script that automatically increments a number in a text file and commits the change to git. Perfect for maintaining a daily commit streak or tracking sequential values.
 
 ## Setup
 
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/Shogun89/fancy_job
-cd fancy_job
+git clone https://github.com/teddyhabtamu/daily_task.git
+cd daily_task
 ```
 
 2. Run the script:
