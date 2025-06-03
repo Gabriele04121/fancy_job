@@ -2,6 +2,7 @@
 import os
 import random
 import subprocess
+import shutil
 from datetime import datetime
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +40,10 @@ def git_push():
 
 
 def update_cron_with_random_time():
+    if not shutil.which("crontab"):
+        print("crontab command not found. Skipping cron update.")
+        return
+
     # Generate random hour (0-23) and minute (0-59)
     random_hour = random.randint(0, 23)
     random_minute = random.randint(0, 59)
@@ -63,10 +68,14 @@ def update_cron_with_random_time():
         file.write(new_cron_command)
 
     # Load the updated crontab
-    os.system(f"crontab {cron_file}")
+    result = subprocess.run(["crontab", cron_file], capture_output=True, text=True)
     os.remove(cron_file)
 
-    print(f"Cron job updated to run at {random_hour}:{random_minute} tomorrow.")
+    if result.returncode == 0:
+        print(f"Cron job updated to run at {random_hour}:{random_minute} tomorrow.")
+    else:
+        print("Failed to update cron job:")
+        print(result.stderr)
 
 def main():
     try:
